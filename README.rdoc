@@ -1,0 +1,39 @@
+= Timeslicer
+
+Many popular charting and reporting engines, such as Highchart or Flot expect data to be presented as arrays against a catoegory axis or datetime axis. Timeslicer will take a span of time, accept time point with values and then slice it into durations (days, weeks, months, etc.), while aggregating the points across the durations.
+
+== Features
+* Can slice into common time units (day, month, week, etc)
+* Handles time units of varying durations (months, leap years)
+* Can aggregate time point data using several methods
+ * sum
+ * min
+ * max
+
+== Install
+
+Put this line in your Gemfile:
+  gem 'timeslicer'
+
+Then bundle:
+  % bundle
+
+== Usage
+
+=== Simple Slicing
+  # some arbitrary starts and stop time
+  @test_start = Time.mktime(2010, 2, 5, 13, 30,  47)
+  @test_stop = Time.mktime(2011, 2, 5, 13, 30,  47)  
+  
+  ts = Timeslicer::Slicer.new(@test_start, @test_stop)
+  slices = ts.slice('month') #returns 12 month TimeIntervals
+  
+=== Simple data aggregation
+  @test_start = Time.mktime(2010, 2, 5, 13, 30,  47)
+  @test_stop = Time.mktime(2011, 2, 5, 13, 30,  47)  
+  ts = Timeslicer::Slicer.new(@test_start, @test_stop, [Timeslicer::TimePoint.new(Time.mktime(2010, 3, 5, 5, 5), 3, {}), Timeslicer::TimePoint.new(Time.mktime(2010, 3, 7, 13, 30,  4), 3, {})])
+  ts.add_timepoint(Time.mktime(2010, 3, 7, 13, 30,  4), 4, {:data => 'test'})
+  ts.add_timepoint(Time.mktime(2011, 1, 7, 13, 30,  4), 1, {:data => 'test'})
+  slices = ts.slice('year')
+  # slices[0].sum == 10
+

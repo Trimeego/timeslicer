@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>to_json (Timeslicer::TimeInterval)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/timeslicer/time_interval.rb, line 90</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_json</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">a</span>)
+      {
+        <span class="ruby-value str">'start_time'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@start_time</span>, 
+        <span class="ruby-value str">'end_time'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@end_time</span>, 
+        <span class="ruby-value str">'duration'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@duration</span>, 
+        <span class="ruby-value str">'points'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@points</span> 
+      }.<span class="ruby-identifier">to_json</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">a</span>)
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

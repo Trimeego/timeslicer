@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (Timeslicer::TimeInterval)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/timeslicer/time_interval.rb, line 6</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">init_time</span>, <span class="ruby-identifier">interval</span>)
+      <span class="ruby-ivar">@points</span> = []
+      <span class="ruby-keyword kw">if</span> [<span class="ruby-value str">'s'</span>, <span class="ruby-value str">'ss'</span>, <span class="ruby-value str">'second'</span>, <span class="ruby-value str">'seconds'</span>].<span class="ruby-identifier">include?</span> <span class="ruby-identifier">interval</span>
+        <span class="ruby-ivar">@interval</span> = <span class="ruby-value str">'second'</span>
+        <span class="ruby-ivar">@dutation</span> = <span class="ruby-value">1</span>;
+        <span class="ruby-ivar">@start_time</span> = <span class="ruby-identifier">init_time</span>
+        <span class="ruby-ivar">@end_time</span> = <span class="ruby-identifier">init_time</span>      
+      <span class="ruby-keyword kw">elsif</span> [<span class="ruby-value str">'M'</span>, <span class="ruby-value str">'MM'</span>,  <span class="ruby-value str">'nn'</span>, <span class="ruby-value str">'minute'</span>, <span class="ruby-value str">'minutes'</span>].<span class="ruby-identifier">include?</span> <span class="ruby-identifier">interval</span>        
+        <span class="ruby-ivar">@interval</span> = <span class="ruby-value str">'minute'</span>
+        <span class="ruby-ivar">@duration</span> = <span class="ruby-value">60</span>
+        <span class="ruby-ivar">@start_time</span> = <span class="ruby-identifier">init_time</span> <span class="ruby-operator">-</span> (<span class="ruby-identifier">init_time</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">%</span> <span class="ruby-ivar">@duration</span>)
+        <span class="ruby-ivar">@end_time</span> = <span class="ruby-ivar">@start_time</span> <span class="ruby-operator">+</span> (<span class="ruby-ivar">@duration</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>)
+      <span class="ruby-keyword kw">elsif</span> [<span class="ruby-value str">'h'</span>, <span class="ruby-value str">'hh'</span>,  <span class="ruby-value str">'hour'</span>, <span class="ruby-value str">'hours'</span>].<span class="ruby-identifier">include?</span> <span class="ruby-identifier">interval</span>
+        <span class="ruby-ivar">@interval</span> = <span class="ruby-value str">'hour'</span>
+        <span class="ruby-ivar">@duration</span> = <span class="ruby-value">60</span><span class="ruby-operator">*</span><span class="ruby-value">60</span>
+        <span class="ruby-ivar">@start_time</span> = <span class="ruby-identifier">init_time</span> <span class="ruby-operator">-</span> (<span class="ruby-identifier">init_time</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">%</span> <span class="ruby-ivar">@duration</span>)
+        <span class="ruby-ivar">@end_time</span> = <span class="ruby-ivar">@start_time</span> <span class="ruby-operator">+</span> (<span class="ruby-ivar">@duration</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>)
+      <span class="ruby-keyword kw">elsif</span> [<span class="ruby-value str">'d'</span>, <span class="ruby-value str">'dd'</span>,  <span class="ruby-value str">'day'</span>, <span class="ruby-value str">'days'</span>].<span class="ruby-identifier">include?</span> <span class="ruby-identifier">interval</span>
+        <span class="ruby-ivar">@interval</span> = <span class="ruby-value str">'day'</span>
+        <span class="ruby-ivar">@duration</span> = <span class="ruby-value">60</span><span class="ruby-operator">*</span><span class="ruby-value">60</span><span class="ruby-operator">*</span><span class="ruby-value">24</span>
+        <span class="ruby-ivar">@start_time</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">mktime</span>( <span class="ruby-identifier">init_time</span>.<span class="ruby-identifier">year</span>, <span class="ruby-identifier">init_time</span>.<span class="ruby-identifier">month</span>, <span class="ruby-identifier">init_time</span>.<span class="ruby-identifier">day</span>)
+        <span class="ruby-ivar">@end_time</span> = <span class="ruby-ivar">@start_time</span> <span class="ruby-operator">+</span> (<span class="ruby-ivar">@duration</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>)
+      <span class="ruby-keyword kw">elsif</span> [<span class="ruby-value str">'w'</span>, <span class="ruby-value str">'ww'</span>,  <span class="ruby-value str">'week'</span>, <span class="ruby-value str">'weeks'</span>].<span class="ruby-identifier">include?</span> <span class="ruby-identifier">interval</span> 
+        <span class="ruby-ivar">@interval</span> = <span class="ruby-value str">'week'</span>
+        <span class="ruby-ivar">@duration</span> = <span class="ruby-value">60</span><span class="ruby-operator">*</span><span class="ruby-value">60</span><span class="ruby-operator">*</span><span class="ruby-value">24</span><span class="ruby-operator">*</span><span class="ruby-value">7</span>
+        <span class="ruby-identifier">day</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">mktime</span>( <span class="ruby-identifier">init_time</span>.<span class="ruby-identifier">year</span>, <span class="ruby-identifier">init_time</span>.<span class="ruby-identifier">month</span>, <span class="ruby-identifier">init_time</span>.<span class="ruby-identifier">day</span>)
+        <span class="ruby-ivar">@start_time</span> = <span class="ruby-identifier">day</span> <span class="ruby-operator">-</span> (<span class="ruby-value">60</span><span class="ruby-operator">*</span><span class="ruby-value">60</span><span class="ruby-operator">*</span><span class="ruby-value">24</span><span class="ruby-operator">*</span><span class="ruby-identifier">day</span>.<span class="ruby-identifier">wday</span>)
+        <span class="ruby-ivar">@end_time</span> = <span class="ruby-ivar">@start_time</span> <span class="ruby-operator">+</span> (<span class="ruby-ivar">@duration</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>)
+      <span class="ruby-keyword kw">elsif</span> [<span class="ruby-value str">'m'</span>, <span class="ruby-value str">'mm'</span>,  <span class="ruby-value str">'month'</span>, <span class="ruby-value str">'months'</span>].<span class="ruby-identifier">include?</span> <span class="ruby-identifier">interval</span> 
+        <span class="ruby-ivar">@interval</span> = <span class="ruby-value str">'month'</span>
+        <span class="ruby-ivar">@start_time</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">mktime</span>( <span class="ruby-identifier">init_time</span>.<span class="ruby-identifier">year</span>, <span class="ruby-identifier">init_time</span>.<span class="ruby-identifier">month</span>)
+        <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@start_time</span>.<span class="ruby-identifier">month</span><span class="ruby-operator">&lt;</span><span class="ruby-value">12</span>
+          <span class="ruby-ivar">@end_time</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">mktime</span>( <span class="ruby-ivar">@start_time</span>.<span class="ruby-identifier">year</span>, <span class="ruby-ivar">@start_time</span>.<span class="ruby-identifier">month</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>)<span class="ruby-operator">-</span><span class="ruby-value">1</span>
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-ivar">@end_time</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">mktime</span>( <span class="ruby-ivar">@start_time</span>.<span class="ruby-identifier">year</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>, <span class="ruby-value">1</span>)<span class="ruby-operator">-</span><span class="ruby-value">1</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-ivar">@duration</span> = <span class="ruby-ivar">@end_time</span><span class="ruby-operator">-</span><span class="ruby-ivar">@start_time</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>
+      <span class="ruby-keyword kw">elsif</span> [<span class="ruby-value str">'y'</span>, <span class="ruby-value str">'yyyy'</span>, <span class="ruby-value str">'yy'</span>, <span class="ruby-value str">'year'</span>, <span class="ruby-value str">'years'</span>].<span class="ruby-identifier">include?</span> <span class="ruby-identifier">interval</span> 
+        <span class="ruby-ivar">@interval</span> = <span class="ruby-value str">'year'</span>
+        <span class="ruby-ivar">@start_time</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">mktime</span>( <span class="ruby-identifier">init_time</span>.<span class="ruby-identifier">year</span>)
+        <span class="ruby-ivar">@end_time</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">mktime</span>( <span class="ruby-identifier">init_time</span>.<span class="ruby-identifier">year</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>)<span class="ruby-operator">-</span><span class="ruby-value">1</span>      
+        <span class="ruby-ivar">@duration</span> = <span class="ruby-ivar">@end_time</span><span class="ruby-operator">-</span><span class="ruby-ivar">@start_time</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>
+      <span class="ruby-keyword kw">end</span>  
+    <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">StandardError</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">Timeslicer</span><span class="ruby-operator">::</span><span class="ruby-constant">TSError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">e</span>)
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

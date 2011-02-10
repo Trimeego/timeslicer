@@ -1,3 +1,8 @@
+$:.push File.expand_path("../lib", __FILE__)  
+require "timeslicer/version"
+require "timeslicer/ts_error"
+require "timeslicer/time_point"
+require "timeslicer/time_interval"
 require 'date'
 require 'json'
 
@@ -10,28 +15,28 @@ module Timeslicer
     def initialize(start_time=nil, end_time=nil, timepoints=[])
       @start_time, @end_time, @timepoints = to_time(start_time), to_time(end_time), timepoints
     rescue StandardError => e
-      raise TSError.new(e)
+      raise Timeslicer::TSError.new(e)
     end
 
     def add_timepoint(*args)
       if(args.size==1&&args[0].class==TimePoint)
         tp = args[0]
       else
-        tp = TimePoint.new(to_time(args[0]), args[1].to_f(), args[2])
+        tp = Timeslicer::TimePoint.new(to_time(args[0]), args[1].to_f(), args[2])
       end
 
       @timepoints << tp
       @start_time = tp.time if @start_time.nil? || @start_time>tp.time
       @end_time = tp.time if @end_time.nil? || @end_time<tp.time
     rescue StandardError => e
-      raise TSError.new(e)
+      raise Timeslicer::TSError.new(e)
     end
 
     def slice(interval, &block)
       #interval can be either a number or a string
       slices = []
       unless @start_time.nil?||@end_time.nil?
-        slice = TimeInterval.new(@start_time, interval)
+        slice = Timeslicer::TimeInterval.new(@start_time, interval)
         until slice.start_time > @end_time
           slices << slice
           slice = slice.next
@@ -48,7 +53,7 @@ module Timeslicer
       slices
 
     rescue StandardError => e
-      raise TSError.new(e)
+      raise Timeslicer::TSError.new(e)
     end
 
 

@@ -1,3 +1,5 @@
-class TSError < StandardError
+module Timeslicer
+  class TSError < StandardError
 
+  end
 end

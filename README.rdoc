@@ -5,10 +5,7 @@ Many popular charting and reporting engines, such as Highchart or Flot expect da
 == Features
 * Can slice into common time units (day, month, week, etc)
 * Handles time units of varying durations (months, leap years)
-* Can aggregate time point data using several methods
- * sum
- * min
- * max
+* Can aggregate time point data using several methods (sum, min, max)
 
 == Install
 

@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Jason Douglas"]
   s.email       = ["jason.douglas@trimeego.com"]
   s.homepage    = "http://rubygems.org/gems/timeslicer"
-  s.summary     = %q{Slices up a time line...and can still cut through a tin can}
+  s.summary     = %q{Slices up a timeline...and can still cut through a tin can}
   s.description = %q{Timeslicer will take a span of time, accept time point with values and then slice it into durations (days, weeks, months, etc.), while aggregating the points across the durations.}
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project         = "timeslicer"

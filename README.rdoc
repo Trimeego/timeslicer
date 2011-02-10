@@ -24,6 +24,10 @@ Then bundle:
   
   ts = Timeslicer::Slicer.new(@test_start, @test_stop)
   slices = ts.slice('month') #returns 12 month TimeIntervals
+
+=== Also takes string start/stops
+  ts = Timeslicer::Slicer.new('01/01/2010', '01/01/2011')
+  slices = ts.slice('month') #returns 12 month TimeIntervals
   
 === Simple data aggregation
   @test_start = Time.mktime(2010, 2, 5, 13, 30,  47)

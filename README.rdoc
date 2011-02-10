@@ -23,18 +23,22 @@ Then bundle:
   @test_stop = Time.mktime(2011, 2, 5, 13, 30,  47)  
   
   ts = Timeslicer::Slicer.new(@test_start, @test_stop)
-  slices = ts.slice('month') #returns 12 month TimeIntervals
+  slices = ts.slice('month') #returns 13 month TimeIntervals
 
 === Also takes string start/stops
   ts = Timeslicer::Slicer.new('01/01/2010', '01/01/2011')
   slices = ts.slice('month') #returns 12 month TimeIntervals
   
 === Simple data aggregation
-  @test_start = Time.mktime(2010, 2, 5, 13, 30,  47)
-  @test_stop = Time.mktime(2011, 2, 5, 13, 30,  47)  
-  ts = Timeslicer::Slicer.new(@test_start, @test_stop, [Timeslicer::TimePoint.new(Time.mktime(2010, 3, 5, 5, 5), 3, {}), Timeslicer::TimePoint.new(Time.mktime(2010, 3, 7, 13, 30,  4), 3, {})])
-  ts.add_timepoint(Time.mktime(2010, 3, 7, 13, 30,  4), 4, {:data => 'test'})
-  ts.add_timepoint(Time.mktime(2011, 1, 7, 13, 30,  4), 1, {:data => 'test'})
-  slices = ts.slice('year')
-  # slices[0].sum == 10
+  ts = Timeslicer::Slicer.new('06/01/2010', '06/01/2011')
+  ts.add_timepoint('3/7/2011 13:30:04', 4, {:data => 'test'})
+  ts.add_timepoint('1/7/2011 13:30:04', 4, {:data => 'test'})
+  
+  # returns the sums for all of the intervals
+  slices = ts.slice('month')
+  slices.map{|interval| interval.sum}
+  => [0.0, 0.0, 4.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+  
+  slices.map{|interval| interval.start_time.strftime("%b")}
+  => ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun"]  
 

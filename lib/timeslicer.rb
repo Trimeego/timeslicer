@@ -28,6 +28,7 @@ module Timeslicer
       @timepoints << tp
       @start_time = tp.time if @start_time.nil? || @start_time>tp.time
       @end_time = tp.time if @end_time.nil? || @end_time<tp.time
+      tp
     rescue StandardError => e
       raise Timeslicer::TSError.new(e)
     end
@@ -62,8 +63,9 @@ module Timeslicer
     def plot_point_in_slices(timepoint, slices)
       unless timepoint.nil? || slices.nil?
         # try to figure out where in the sequence the value will likely be wihtout iteration.
-        chucksize = (@end_time.to_i - @start_time.to_i) / slices.size
-        approx_index = (timepoint.time.to_i - @start_time.to_i) / chucksize
+        chuncksize = (@end_time.to_i - @start_time.to_i) / slices.size
+        approx_index = (timepoint.time.to_i - @start_time.to_i) / chuncksize
+        approx_index = slices.size-1 if approx_index>=slices.size # sometimes this method will throw us over the back
         offset = slices[approx_index].compare(timepoint.time)
         # should work most time, but the following allows us to adjust for inconsistent durations, like months.
         # and work backward/forward 

@@ -1,0 +1,3 @@
+class TSError < StandardError
+
+end
